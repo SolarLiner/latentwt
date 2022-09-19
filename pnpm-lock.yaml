@@ -3,8 +3,10 @@ lockfileVersion: 5.4
 specifiers:
   '@vitejs/plugin-vue': ^3.1.0
   chart.js: ^3.9.1
+  immer: ^9.0.15
   naive-ui: ^2.33.3
   onnxruntime-web: ^1.12.1
+  prettier: ^2.7.1
   sass: ^1.54.9
   typescript: ^4.6.4
   vite: ^3.1.0
@@ -15,6 +17,7 @@ specifiers:
 
 dependencies:
   chart.js: 3.9.1
+  immer: 9.0.15
   onnxruntime-web: 1.12.1
   vue: 3.2.39
   vue-chartjs: 4.1.1_chart.js@3.9.1+vue@3.2.39
@@ -23,6 +26,7 @@ dependencies:
 devDependencies:
   '@vitejs/plugin-vue': 3.1.0_vite@3.1.1+vue@3.2.39
   naive-ui: 2.33.3_vue@3.2.39
+  prettier: 2.7.1
   sass: 1.54.9
   typescript: 4.8.3
   vite: 3.1.1_sass@1.54.9
@@ -616,6 +620,10 @@ packages:
     engines: {node: '>=12.0.0'}
     dev: true
 
+  /immer/9.0.15:
+    resolution: {integrity: sha512-2eB/sswms9AEUSkOm4SbV5Y7Vmt/bKRwByd52jfLkW4OLYeaTP3EEiJ9agqU0O/tq6Dk62Zfj+TJSqfm1rLVGQ==}
+    dev: false
+
   /immutable/4.1.0:
     resolution: {integrity: sha512-oNkuqVTA8jqG1Q6c+UglTOD1xhC1BtjKI7XkCXRkZHrN5m18/XsnUp8Q89GkQO/z+0WjonSvl0FLhDYftp46nQ==}
     dev: true
@@ -753,6 +761,12 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
+
+  /prettier/2.7.1:
+    resolution: {integrity: sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: true
 
   /protobufjs/6.11.3:
     resolution: {integrity: sha512-xL96WDdCZYdU7Slin569tFX712BxsxslWwAfAhCYjQKGTq7dAU91Lomy6nLLhh/dyGhk/YH4TwTSRxTzhuHyZg==}

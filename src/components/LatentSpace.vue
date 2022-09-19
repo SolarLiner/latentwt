@@ -12,7 +12,7 @@ import {
 import { getRelativePosition } from "chart.js/helpers";
 import { Scatter } from "vue-chartjs";
 import { useThemeVars } from "naive-ui";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { Point, Wavetables } from "../types";
 
 ChartJS.register(
@@ -28,7 +28,12 @@ ChartJS.register(
 const wt: Wavetables = await fetch("/wavetables.json").then((r) => r.json());
 const points = wt.map(([, [x, y]]) => ({ x, y }));
 
-const emit = defineEmits<{ (e: "hover", pt: Point): void }>();
+const emit = defineEmits<{
+  (e: "hover", pt: Point): void;
+  (e: "step", pts: Point): void;
+  (e: "reset"): void;
+  (e: "done"): void;
+}>();
 
 const theme = useThemeVars();
 const elementRef = ref<(HTMLCanvasElement & { chart?: ChartJS }) | null>(null);
@@ -38,11 +43,23 @@ const onMouseover = (ev: MouseEvent) => {
   if (!chart) return;
 
   const { x, y } = getRelativePosition(ev, chart);
-  emit("hover", {
+  const pt = {
     x: chart.scales.x.getValueForPixel(x) ?? 0,
     y: chart.scales.y.getValueForPixel(y) ?? 0,
-  });
+  };
+  emit("hover", pt);
+  if (clicking.value) {
+    emit("step", pt);
+  }
 };
+
+const clicking = ref(false);
+
+watchEffect(() => {
+  if (clicking.value) {
+    emit("reset");
+  } else emit("done");
+});
 </script>
 
 <template>
@@ -50,8 +67,8 @@ const onMouseover = (ev: MouseEvent) => {
     ref="elementRef"
     chart-id="latent-space"
     @mousemove.prevent="onMouseover"
-    :width="400"
-    :height="400"
+    @mousedown.prevent="clicking = true"
+    @mouseup.prevent="clicking = false"
     :chart-data="{
       datasets: [
         {
@@ -69,10 +86,6 @@ const onMouseover = (ev: MouseEvent) => {
       elements: { point: { pointStyle: 'crossRot' } },
       plugins: {
         tooltip: { enabled: false },
-      },
-      scales: {
-        x: { min: -1, max: 2 },
-        y: { min: -1, max: 2 },
       },
     }"
   />
