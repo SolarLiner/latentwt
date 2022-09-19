@@ -3,7 +3,7 @@ on: [push]
 permissions:
   contents: write
 jobs:
-  build-and-deploy:
+  deploy:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
@@ -12,6 +12,7 @@ jobs:
 
       - name: Install and Build
         run: |
+          npm i -g pnpm
           pnpm install
           pnpm run build
 
