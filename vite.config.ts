@@ -9,5 +9,5 @@ export default defineConfig({
       ["onnxruntime-web"]: "onnxruntime-web/dist/ort.es6.min.js",
     },
   },
-  base: 'latentwt'
+  base: '/latentwt'
 });
