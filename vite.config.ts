@@ -1,15 +1,31 @@
-import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
+import {defineConfig} from 'vite';
+import {VitePWA} from 'vite-plugin-pwa';
+import {viteStaticCopy} from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  assetsInclude: ['**/*.onnx'],
+  plugins: [vue(), VitePWA({
+    strategies: 'generateSW',
+    workbox: {
+      globPatterns: ['*.wasm', '*.onnx'],
+    },
+    manifest: {
+      id: 'com.github.solarliner.latentwt',
+      name: 'Latent Wavetables',
+    }
+  }), viteStaticCopy({
+    targets: [{
+      src: './node_modules/onnxruntime-web/dist/*.wasm',
+      dest: '',
+    }],
+  })],
   resolve: {
     alias: {
-      ['onnxruntime-web']: 'onnxruntime-web/dist/ort.es6.min.js',
+      'onnxruntime-web': 'onnxruntime-web/dist/ort.es6.min.js',
     },
   },
-  base: '/latentwt/',
   build: {
     rollupOptions: {
       output: {

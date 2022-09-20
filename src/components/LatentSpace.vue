@@ -13,7 +13,8 @@ import { getRelativePosition } from "chart.js/helpers";
 import { Scatter } from "vue-chartjs";
 import { useThemeVars } from "naive-ui";
 import { ref, watchEffect } from "vue";
-import { Point, Wavetables } from "../types";
+import {Wavetables } from '../lib/wavetables';
+import { Point } from '../types';
 
 ChartJS.register(
   Title,
@@ -25,8 +26,8 @@ ChartJS.register(
   LinearScale
 );
 
-const wt: Wavetables = await fetch("/wavetables.json").then((r) => r.json());
-const points = wt.map(([, [x, y]]) => ({ x, y }));
+const wt = await Wavetables.load();
+const points = Array.from(wt.positions());
 
 const emit = defineEmits<{
   (e: "hover", pt: Point): void;

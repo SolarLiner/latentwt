@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import * as ort from "onnxruntime-web";
 import { ref, watchEffect, watchPostEffect } from "vue";
+import {LatentWavetable} from '../lib/model';
 import { Point } from "../types";
 import LineChart from "./LineChart.vue";
 
-const model = await ort.InferenceSession.create("/latentwt.onnx");
+const model = await LatentWavetable.load();
 
 const props = defineProps<{ pos: Point }>();
 const emit = defineEmits<{ (e: "run", value: number[]): void }>();
@@ -13,10 +14,7 @@ const wavetable = ref<number[]>(new Array(256).fill(0));
 watchEffect(() => (wavetable.value ? emit("run", wavetable.value) : undefined));
 
 const run = async (pt: Point): Promise<number[]> => {
-  const {
-    wavetable: { data },
-  } = await model.run({ pos: new ort.Tensor("float32", [pt.x, pt.y]) });
-  return Array.from(data as Float32Array);
+  return model.run(pt);
 };
 
 defineExpose({ run });
