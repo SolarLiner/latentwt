@@ -1,4 +1,4 @@
-# [Latent Wavetables](https://solarliner.github.io/latentwt)
+# [Latent Wavetables](https://latentwt.netlify.app)
 
 An autoencoder for wavetables
 
